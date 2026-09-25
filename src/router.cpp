@@ -63,12 +63,14 @@ std::string Router::handle(const HttpRequest& req) {
     result = Calculator::sub(*a, *b);
   } else if (req.path == "/mul") {
     result = Calculator::mul(*a, *b);
-  } else {
+  } else if (req.path == "/div") {
     const auto quot = Calculator::div(*a, *b);
     if (!quot) {
       return response(400, "Bad Request", "", keep_alive);
     }
     result = *quot;
+  } else {
+    return response(400, "Bad Request", "", keep_alive);
   }
 
   return response(200, "OK", Calculator::format_number(result), keep_alive);
